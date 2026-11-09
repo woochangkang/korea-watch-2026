@@ -1,0 +1,55 @@
+project:
+  type: website
+  execute-dir: project
+  output-dir: _site
+  render:
+    - "*.qmd"
+    - "!README.md"
+    - "!CLAUDE.md"
+    - "!prompts/"
+    - "!*conflicted copy*"
+    - "!*충돌*사본*"
+  resources:
+    - assets/korea_plants_map.js
+
+lang: ko
+
+website:
+  title: "Korea Watch"
+  site-url: "https://woochangkang.github.io/korea-watch-2026"
+  description: "미국 정치권의 한국 관련 동향 — 한미 조인트 팩트시트, 한국 기업 미국 공장과 선거"
+  navbar:
+    left:
+      - href: index.qmd
+        text: 동향·인물
+      - href: fact-sheet.qmd
+        text: 한미 조인트 팩트시트
+      - href: plants.qmd
+        text: 한국 기업 미국 공장 지도
+    right:
+      - text: "중간선거 브리핑 ↗"
+        href: https://us-elections-2026.github.io/
+      - icon: github
+        href: https://github.com/woochangkang/korea-watch-2026
+  page-footer:
+    center: "Korea Watch · 선거 등급·시장가는 [미국 중간선거 한국어 브리핑](https://us-elections-2026.github.io/) 자료를 빌드 때 받아 씁니다."
+
+format:
+  html:
+    include-in-header:
+      - text: |
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+          <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=JetBrains+Mono:wght@400;600&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet">
+    theme:
+      - litera
+      - theme/custom.scss
+    toc: true
+    toc-title: 목차
+    smooth-scroll: true
+
+execute:
+  echo: false
+  warning: false
+  message: false
+  freeze: false

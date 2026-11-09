@@ -1,0 +1,34 @@
+name: Korea plants weekly review PR
+
+# 주간 점검 루틴(prompts/korea_plants_weekly.md)이 korea-weekly/pending 을 push하면
+# 데이터를 검사하고 PR을 연다. PR이 이미 열려 있으면 이번 주 보고서를 댓글로 단다.
+on:
+  push:
+    branches: ["korea-weekly/pending"]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  open-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Check data
+        run: python3 scripts/check_korea_weekly.py
+      - name: Open PR or comment
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          REPORT=$(ls data/korea/weekly/*.md | sort | tail -1)
+          RUN=$(basename "$REPORT" .md)
+          cp "$REPORT" /tmp/body.md
+          printf '\n\n---\n검토 후 병합하면 사이트에 반영됩니다. 새 공장 후보(data/korea/candidates/)는 병합 전 로컬에서 지역구 배정(scripts/build_korea_plants.py)이 필요합니다.\n' >> /tmp/body.md
+          NUM=$(gh pr list --head korea-weekly/pending --state open --json number -q '.[0].number')
+          if [ -n "$NUM" ]; then
+            gh pr comment "$NUM" --body-file /tmp/body.md
+            gh pr edit "$NUM" --title "주간 점검: 한국 기업 미국 공장 (~${RUN})"
+          else
+            gh pr create --base main --head korea-weekly/pending --title "주간 점검: 한국 기업 미국 공장 (~${RUN})" --body-file /tmp/body.md
+          fi

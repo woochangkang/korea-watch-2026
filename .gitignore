@@ -1,0 +1,16 @@
+_site/
+.quarto/
+*_files/
+/.crosscheck/
+# 본 사이트에서 받아 오는 선거 자료(정본은 us-elections-2026.github.io) — 커밋하지 않는다
+/data/house_cook_districts.json
+/data/house_races.json
+/data/senate_ratings_feed.json
+/data/governor_ratings.json
+/data/kalshi_prices.json
+# Dropbox 충돌 사본
+*conflicted copy*
+*충돌*사본*
+
+/.quarto/
+**/*.quarto_ipynb
